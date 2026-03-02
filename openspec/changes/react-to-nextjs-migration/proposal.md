@@ -26,6 +26,8 @@
 
 - 前端框架：从 React + Vite 变为 Next.js (App Router)
 - 构建工具：从 Vite 变为 Next.js 内置构建
-- 部署平台：继续使用 Vercel（已有 vercel.json 配置）
+- 样式方案：继续使用 Tailwind CSS（需配置 PostCSS）
+- 部署平台：继续使用 Vercel（需调整 vercel.json）
 - 路由：从单页面变为基于文件系统的路由
-- 环境变量：使用 Next.js 标准方式加载 .env
+- 环境变量：使用 `NEXT_PUBLIC_` 前缀（客户端可见）
+- SSR 兼容性：recharts 图表库需要客户端渲染（`'use client'`）

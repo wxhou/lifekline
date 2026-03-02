@@ -28,11 +28,37 @@
 - **THEN** Vercel 自动部署，网站可访问
 
 ### Requirement: 环境变量兼容
-项目 SHALL 使用 Next.js 标准方式加载环境变量，现有 .env 配置 SHALL 继续工作。
+项目 SHALL 使用 Next.js 标准方式加载环境变量，需要将 `VITE_` 前缀改为 `NEXT_PUBLIC_` 前缀。
 
-#### Scenario: 环境变量加载
+#### Scenario: 环境变量加载（客户端）
 - **WHEN** 应用启动
-- **THEN** 环境变量通过 import.meta.env 正确读取
+- **THEN** 环境变量通过 `NEXT_PUBLIC_` 前缀正确读取
+
+#### Scenario: 环境变量命名迁移
+- **WHEN** 检查 .env 文件
+- **THEN** 使用 `NEXT_PUBLIC_` 前缀而非 `VITE_`
+
+### Requirement: Tailwind CSS 兼容
+项目 SHALL 继续使用 Tailwind CSS，通过 PostCSS 本地配置处理，而非 CDN。
+
+#### Scenario: Tailwind 配置
+- **WHEN** 运行 `npm run dev`
+- **THEN** PostCSS 正确加载 Tailwind 样式
+
+#### Scenario: 样式渲染
+- **WHEN** 访问页面
+- **THEN** Tailwind 样式正确应用，页面样式与原项目一致
+
+### Requirement: SSR 兼容性
+使用 recharts 的图表组件 SHALL 支持 Next.js 客户端渲染。
+
+#### Scenario: 图表组件渲染
+- **WHEN** LifeKLineChart 组件渲染
+- **THEN** 组件正确显示，无 SSR 报错
+
+#### Scenario: 动态导入图表
+- **WHEN** 页面加载
+- **THEN** 图表组件使用动态导入或 'use client' 避免服务端渲染
 
 ### Requirement: 组件兼容性
 现有 React 组件 SHALL 在 Next.js 环境中正常工作。
