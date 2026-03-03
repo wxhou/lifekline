@@ -80,9 +80,7 @@ export default function Home() {
 
             {/* Tutorial link - elegant style */}
             <a
-              href="https://jcnjmxofi1yl.feishu.cn/wiki/OPa4woxiBiFP9okQ9yWcbcXpnEw?from=from_copylink"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/guide"
               className="group flex items-center gap-3 text-[#8b7355] dark:text-[#c9a959] hover:text-[#6b5a45] dark:hover:text-[#d4b96a] transition-colors text-sm"
             >
               <BookOpen className="w-4 h-4" />
