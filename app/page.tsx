@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import BaziForm from './components/BaziForm';
 import LifeKLineChart from './components/LifeKLineChart';
 import AnalysisResult from './components/AnalysisResult';
 import ThemeToggle from './components/ThemeToggle';
+import ExportButton from './components/ExportButton';
 import { UserInput, LifeDestinyResult } from './types';
 import { generateLifeAnalysis } from './services/geminiService';
 import { Sparkles, AlertCircle, BookOpen, Moon } from 'lucide-react';
@@ -13,6 +14,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<LifeDestinyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFormSubmit = async (data: UserInput) => {
     setLoading(true);
@@ -106,22 +108,27 @@ export default function Home() {
 
             <div className="flex justify-between items-center pb-4 border-b border-[#e5e0d8] dark:border-[#2a2a2a]">
                <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-[#e8e4ec]">命盘分析</h2>
-               <button
-                 onClick={() => setResult(null)}
-                 className="text-[#8b7355]c9a959 dark:text-[#] hover:text-[#6b5a45] dark:hover:text-[#d4b96a] text-sm transition-colors"
-               >
-                 ← 重新测算
-               </button>
+               <div className="flex items-center gap-4">
+                 <ExportButton targetRef={resultsRef} />
+                 <button
+                   onClick={() => setResult(null)}
+                   className="text-[#8b7355] dark:text-[#c9a959] hover:text-[#6b5a45] dark:hover:text-[#d4b96a] text-sm transition-colors"
+                 >
+                   ← 重新测算
+                 </button>
+               </div>
             </div>
 
+            {/* Export Container */}
+            <div ref={resultsRef} className="bg-white dark:bg-slate-900 p-4 md:p-6 rounded-xl">
             {/* The Chart */}
-            <section className="space-y-4">
+            <section className="space-y-4 mb-10">
               <h3 className="text-lg font-medium text-[#1a1a1a] dark:text-[#e8e4dc] flex items-center gap-3">
                  <span className="w-8 h-px bg-[#c9a959]"></span>
                  人生流年走势
               </h3>
               <p className="text-xs text-[#888] dark:text-[#666]">
-                绿色代表<span className="text-green-600 dark:text-green-400 font-medium">吉</span>，红色代表<span className="text-red-600 dark:text-red-400 font-medium">凶</span>
+                红色代表<span className="text-red-600 dark:text-red-400 font-medium">吉</span>，绿色代表<span className="text-green-600 dark:text-green-400 font-medium">凶</span>
               </p>
               <LifeKLineChart data={result.chartData} />
             </section>
@@ -130,6 +137,12 @@ export default function Home() {
             <section>
                <AnalysisResult analysis={result.analysis} />
             </section>
+
+            {/* Watermark */}
+            <div className="text-center text-gray-400 dark:text-gray-500 text-xs py-6 mt-8 border-t border-gray-100 dark:border-gray-800">
+              卜算子 | 八字命理可视化
+            </div>
+            </div>
           </div>
         )}
       </main>
